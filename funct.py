@@ -3,7 +3,15 @@
 #import necessary moduls
 from pathlib import Path
 from cryptography.fernet import Fernet
+import psycopg2
+from psycopg2 import Binary
 
+# connection with data base
+conn = psycopg2.connect(database = 'Ps_manager',
+                        user = 'zakhar',
+                        host = 'localhost',
+                        port = 5432)
+cur = conn.cursor()
 
 # for change on main(first) page
 def main_page():
@@ -40,15 +48,21 @@ def get_fernet():
 # add password
 def add_passwd(f):
 
-    name = (input("\n\tName servise: ")).encode('utf-8')
-    login = (input("\n\tLogin: ")).encode('utf-8')
-    password = (input("\n\tPassword: ")).encode('utf-8')
-    enc_password = f.encrypt(password)
+    name = (input("\n\tName servise: "))
+    login = (input("\n\tLogin: "))
+    password = (input("\n\tPassword: "))
+    enc_password = f.encrypt((password).encode("utf-8"))
     
     # Here will be sending data in data base
+   
+    cur.execute(
+            "INSERT INTO Ps_manager (name, login, password) VALUES (%s, %s, %s)", (name, login, Binary(enc_password)),
+            )
 
-    password = f.decrypt(enc_password)
-
+    conn.commit()
+    cur.close()
+    conn.close()
+    
     print(
             "\n\tThis function in process"
             f"\n\tYour password: {password}"
