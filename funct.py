@@ -58,37 +58,65 @@ def add_passwd(f):
     password = (input("\n\tPassword: "))
     enc_password = f.encrypt((password).encode("utf-8"))
 
-    print(enc_password)
-    print(type(enc_password))
-    
-    # Here will be sending data in data base
     conn, cur = connect_db() #def for connect to data base
     cur.execute(
             "INSERT INTO Ps_manager (name, login, password) VALUES (%s, %s, %s)", (name, login, enc_password),
             )
     disconnect_db(conn, cur) #def for disconnect to data base
     print(
-            "\n\tThis function in process"
-            f"\n\tYour password: {password}"
-            f"\n\tYour enc_password = {enc_password}"
+            f"\n\tThe additionl was successful"
           )
 
 
 # def for get password by name
-def get_by_name(name):
+def get_by_name():
+    name = input('\n\tYour name: ')
     conn, cur = connect_db() 
     cur.execute(f"SELECT * FROM Ps_manager WHERE name = '{name}';")
     rows = cur.fetchall()
     disconnect_db(conn, cur)
-    name, login, pswd = rows[0]
     f = get_fernet()
-    print(rows, name, login, bytes(pswd), f.decrypt(bytes(pswd)).decode('utf-8'))
+    print("\n--------------------------------------------------")
+    if rows:
+        for i in range(len(rows)):
+            i = i-1
+            name, login, pswd = rows[i]
+            print(f"\n\t {name} | {login} | {f.decrypt(bytes(pswd)).decode('utf-8')}\n")
+    else:
+        print("\n\tYou have't passwort with this name... \n")
+    print("--------------------------------------------------")            
     
-
+    if not rows:
+       print('\n\tDo you want try again?    y/n\n')
+       choise = input('\tYour choise: ').lower()
+       if choise == 'y':
+           get_by_name()
+           
 
 # def for get password by login
-def get_by_login(login):
-    print('In process...')
+def get_by_login():
+    login = input('\n\tYour login: ')
+    conn, cur = connect_db()
+    cur.execute(f"SELECT * FROM Ps_manager WHERE login = '{login}';")
+    rows = cur.fetchall()
+    disconnect_db(conn, cur)
+    f = get_fernet()
+    print("\n--------------------------------------------------")
+    if rows:
+        for i in range(len(rows)):
+            i = i-1
+            name, login, pswd = rows[i]
+            print(f"\n\t {name} | {login} | {f.decrypt(bytes(pswd)).decode('utf-8')}\n")
+    else:
+        print("\n\tYou have't passwort with this login... \n")
+    print("--------------------------------------------------")            
+
+    if not rows:
+       print('\n\tDo you want try again?    y/n\n')
+       choise = input('\tYour choise: ').lower()
+       if choise == 'y':
+           get_by_login()
+
 
 # funct for get password
 def get_passwd():
@@ -98,11 +126,9 @@ def get_passwd():
           )
     change = input("\n\tYour change: ").lower()
     if change == 'n':
-        name = input('\n\tYour name: ')
-        get_by_name(name)
+        get_by_name()
     elif change == 'l':
-        login = input('\n\tYour login: ')
-        get_by_login(login)
+        get_by_login()
     else:
         print('\n\tError input, try again.')
         get_passwd()

@@ -82,13 +82,21 @@ def get_by_name(name):
     disconnect_db(conn, cur)
     name, login, pswd = rows[0]
     f = get_fernet()
-    print(rows, name, login, bytes(pswd), f.decrypt(pswd).decode('utf-8'))
+    print(rows, name, login, bytes(pswd), f.decrypt(bytes(pswd)).decode('utf-8'))
     
 
 
 # def for get password by login
 def get_by_login(login):
-    print('In process...')
+    conn, cur = connect_db()
+    cur.execute(f"SELECT * FROM Ps_manager WHERE login = '{login}';")
+    rows = cur.fetchall()
+    disconnect_db(conn, cur)
+    for i in range(len(rows)-1):
+        name, login, pswd = rows[i]
+        f = get_fernet()
+        print(rows, name, login, bytes(pswd), f.decrypt(bytes(pswd)).decode('utf-8')
+              
 
 # funct for get password
 def get_passwd():
