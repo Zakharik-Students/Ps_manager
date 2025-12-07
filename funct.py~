@@ -164,7 +164,7 @@ def ch_pswd(f):
     print('\n\t------------------------------------------')
 
 
-def del_pswd():
+def del_pswd(f):
     print('\n\tEnter data for delete.')
     name = input('\n\tname: ')
     login = input('\n\tlogin: ')
