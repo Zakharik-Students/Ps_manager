@@ -82,7 +82,7 @@ def get_by_name(name):
     disconnect_db(conn, cur)
     name, login, pswd = rows[0]
     f = get_fernet()
-    print(rows, name, login, bytes(pswd), f.decrypt(bytes(pswd)).decode('utf-8'))
+    print(rows, name, login, bytes(pswd), f.decrypt(pswd).decode('utf-8'))
     
 
 

@@ -16,4 +16,3 @@ conn.close()
 for row in rows:
     name, login, passwd = row
     print(name)
-passwd
