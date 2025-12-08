@@ -29,11 +29,12 @@ def main_page():
             "\tWhat would you do?\n"
             "\n\tAdd password:          'a'"
             "\n\tGet password:          'g'"
-            "\n\tExit:                  'q'"
             "\n\tChange password:       'c'"
             "\n\tDelete password:       'd'"
+            "\n\tExit:                  'q'"
+            "\n\tWatch anime girl       'w'"
             )
-    return(input('\n\tYour change: '))
+    return((input('\n\tYour change: ').lower()))
 
 
 

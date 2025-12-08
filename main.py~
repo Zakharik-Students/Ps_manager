@@ -9,17 +9,19 @@ from funct import main_page, get_fernet, add_passwd, get_passwd, ch_pswd, del_ps
 
 while True:
     change = main_page()
-    if change.lower() == 'a':
+    if change == 'a':
         f = get_fernet()
         add_passwd(f)
-    elif change.lower() == 'g':
+    elif change == 'g':
         get_passwd()
-    elif change.lower() == "c":
+    elif change == "c":
         f = get_fernet()
         ch_pswd(f)
-    elif change.lower() == 'd':
+    elif change == 'd':
         del_pswd()
-    elif change.lower() == 'q':
+    elif change == 'w':
+        print('In process...')
+    elif change == 'q':
         sys.exit(0)
     else:
         continue
