@@ -3,24 +3,8 @@
 #import necessary moduls
 from pathlib import Path
 from cryptography.fernet import Fernet
-import psycopg2
-from psycopg2 import Binary
-
-# connection with data base
-def connect_db():
-    conn = psycopg2.connect(database = 'Ps_manager',
-                           user = 'zakhar',
-                            host = 'localhost',
-                            port = 5432)
-    cur = conn.cursor()
-    return(conn, cur)
-
-#def close db
-def disconnect_db(conn, cur):
-    conn.commit()
-    cur.close()
-    conn.close()
-
+from db_funct import connect_db, disconnect_db
+from crypt_funct import get_fernet
 
 # for change on main(first) page
 def main_page():
@@ -75,7 +59,7 @@ def add_passwd(f):
             "INSERT INTO Ps_manager (name, login, password) VALUES (%s, %s, %s)", (name, login, enc_password),
             )
 
-    disconnect_db(conn, cur) #def for disconnect to data base
+    disconnect_db(conn, cur) 
     print("\n\t------------------------------------------------")
     print(f"\n\tThe additionl was successful")
     print("\n\t------------------------------------------------")
